@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Color theme for statusbar -->
+    <!-- <meta name="theme-color" content="#2196f3"> -->
+    <!-- Your app title -->
+    <title>Taskann</title>
+    <link rel="stylesheet" type="text/css" href="css/material-icons.css">
+    <!-- Path to Framework7 Library CSS, Material Theme -->
+    <link rel="stylesheet" href="css/framework7.material.min.css">
+    <!-- Path to Framework7 color related styles, Material Theme -->
+    <link rel="stylesheet" href="css/framework7.material.colors.min.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/my-app.css">
+  </head>
+  <body class="framework7-root theme-bluegray">
+    <!-- Views -->
+    <div class="views">
+      <!-- Your main view, should have "view-main" class -->
+      <div class="view view-main">
+        <!-- Pages container, because we use fixed navbar and toolbar, it has additional appropriate classes-->
+        <div class="pages navbar-fixed">
+            <div data-page="tabs-static" class="page toolbar-fixed page-on-center">
+              <div class="navbar">
+                <div class="navbar-inner">
+                 
+                  <div class="center">Taskann</div>
+                  <div class="right">
+                    <a href="#" class="link icon-only open-popup" data-popup=".popup-new-task"><i class="icon material-icons">create</i></a>
+                    <a href="#" class="link icon-only toggle-sortable" data-sortable=".sortable"><i class="icon material-icons">sort</i></a>
+                    <a href="#" class="link open-popup icon-only" data-popup=".popup-settings"><i class="icon material-icons">menu</i></a>
+                </div>
+                </div>
+              </div>
+
+              <div class="toolbar tabbar">
+                <div class="toolbar-inner">
+                    <a href="#tab1" class="active tab-link"> 
+                        <!-- <i class="icon material-icons">today</i> -->
+                        <span class="tabbar-label">TO DO</span>
+                        <sup class="badge bg-orange" id="todo-count">5</sup>
+                    </a>
+                    <a href="#tab2" class="tab-link">
+                        <i class="icon material-icons">work</i>
+                        <sup class="badge bg-red" id="doing-count">1/2</sup>
+                    </a>
+                    <a href="#tab3" class="tab-link">
+                        <i class="icon material-icons">done</i>
+                        <sup class="badge bg-green" id="done-count">7</sup>
+                    </a>
+                </div>
+              </div>
+
+              <div class="tabs-animated-wrap">
+                <div class="tabs">
+                    <div id="tab1" class="page-content tab active">
+                            
+                            <!-- Media list block has additional "media-list" class -->
+                            <div class="list-block media-list sortable" style="margin: auto 0;">
+                                <ul id="tasklist">
+                                    
+                                </ul>
+                            </div> 
+
+                    </div>
+                    <div id="tab2" class="page-content tab">
+                      <div class="content-block">
+                        <p>This is tab 2 content</p>
+                        <p>Ut ac lobortis lacus, non pellentesque arcu. Quisque sodales sapien malesuada, condimentum nunc at, viverra lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus eu pulvinar turpis, id tristique quam. Aenean venenatis molestie diam, sit amet condimentum nisl pretium id. Donec diam tortor, mollis in vehicula id, vehicula consectetur nulla. Quisque posuere rutrum mauris, eu rutrum turpis blandit at. Proin volutpat tortor sit amet metus porttitor accumsan. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut dapibus posuere dictum.</p>
+                        <p>Fusce luctus turpis nunc, id porta orci blandit eget. Aenean sodales quam nec diam varius, in ornare ipsum condimentum. Aenean eleifend, nulla sit amet volutpat adipiscing, ligula nulla pharetra risus, vitae consequat leo tortor eu nunc. Vivamus at fringilla metus. Duis neque lectus, sagittis in volutpat a, pretium vel turpis. Nam accumsan auctor libero, quis sodales felis faucibus quis. Etiam vestibulum sed nisl vel aliquet. Aliquam pellentesque leo a lacus ultricies scelerisque. Vestibulum vestibulum fermentum tincidunt. Proin eleifend metus non quam pretium, eu vehicula ipsum egestas. Nam eget nibh enim. Etiam sem leo, pellentesque a elit vel, egestas rhoncus enim. Morbi ultricies adipiscing tortor, vitae condimentum lacus hendrerit nec. Phasellus laoreet leo quis purus elementum, ut fringilla justo eleifend. Nunc ultricies a sapien vitae auctor. Aliquam id erat elementum, laoreet est et, dapibus ligula.</p>
+                      </div>
+                    </div>
+                    <div id="tab3" class="page-content tab">
+                      <div class="content-block">
+                        <p>This is tab 3 content</p>
+                        <p>Nulla gravida libero eget lobortis iaculis. In sed elit eu nibh adipiscing faucibus. Sed ac accumsan lacus. In ut diam quis turpis fringilla volutpat. In ultrices dignissim consequat. Cras pretium tortor et lorem condimentum posuere. Nulla facilisi. Suspendisse pretium egestas lacus ac laoreet. Mauris rhoncus quis ipsum quis tristique. Vivamus ultricies urna quis nunc egestas, in euismod turpis fringilla. Nam tellus massa, vehicula eu sapien non, dapibus tempor lorem. Fusce placerat orci arcu, eu dignissim enim porttitor vel. Nullam porttitor vel dolor sed feugiat. Suspendisse potenti. Maecenas ac mattis odio. Sed vel ultricies lacus, sed posuere libero.</p>
+                        <p>Nulla gravida libero eget lobortis iaculis. In sed elit eu nibh adipiscing faucibus. Sed ac accumsan lacus. In ut diam quis turpis fringilla volutpat. In ultrices dignissim consequat. Cras pretium tortor et lorem condimentum posuere. Nulla facilisi. Suspendisse pretium egestas lacus ac laoreet. Mauris rhoncus quis ipsum quis tristique. Vivamus ultricies urna quis nunc egestas, in euismod turpis fringilla. Nam tellus massa, vehicula eu sapien non, dapibus tempor lorem. Fusce placerat orci arcu, eu dignissim enim porttitor vel. Nullam porttitor vel dolor sed feugiat. Suspendisse potenti. Maecenas ac mattis odio. Sed vel ultricies lacus, sed posuere libero.</p>
+                      </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings popup -->
+    <div class="popup popup-settings">
+        
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="#" class="icon-only link close-popup"><i class="icon icon-back"></i></a>
+                </div>
+                <div class="center">Preferences</div>
+                <div class="right">
+                    <a href="#" class="icon-only link close-popup"><i class="material-icons icon">save</i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-block-title">
+            <strong>Preferences</strong>
+        </div>
+
+        <div class="content-block">
+            
+        </div>
+
+    </div>
+
+    <!-- Add task popup -->
+    <div class="popup popup-new-task">
+        
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="#" class="icon-only link close-popup"><i class="icon icon-back"></i></a>
+                </div>
+                <div class="center">Create New Task</div>
+                <div class="right">
+                    <a href="#" class="icon-only link" id="saveNewTask"><i class="material-icons icon">save</i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="list-block" style="margin: auto 0;">
+          <ul>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                      <input type="text" name="title" placeholder="Title" id="newTaskTitle">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="align-top">
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                      <textarea name="description" placeholder="Description"  id="newTaskDescription"></textarea>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                      <input type="time" name="title" placeholder="00:00" id="newTaskTime">
+                  </div>
+                </div>
+              </div>
+            </li>
+                          
+          </ul>
+        </div>
+    </div>
+
+    
+    <!-- todo popover -->
+    <div class="popover popover-todo" style="width: 200px">
+    <div class="popover-angle"></div>
+        <div class="popover-inner">
+            <div class="list-block">
+                <ul>
+                  <li><a href="#" class="list-button item-link"><i class="icon material-icons">work</i> Move to Doing </a></li>
+                  <li><a href="#" class="list-button item-link"><i class="icon material-icons">done</i> Move to Done</a></li>
+                </ul>
+            </div>
+        </div>
+  </div>
+
+    <!-- Path to Framework7 Library JS-->
+    <script type="text/javascript" src="js/framework7.min.js"></script>
+    <!-- Path to your app js-->
+    <script type="text/javascript" src="js/my-app.js"></script>
+  </body>
+</html>
