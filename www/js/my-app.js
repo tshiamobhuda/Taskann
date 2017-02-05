@@ -131,7 +131,7 @@ function fetchTodo(tab) {
                                         '</div>'+
                                         '<div class="swipeout-actions-left">'+
                                             '<a href="#" class="bg-orange open-edit-task-popup" id="'+ i +'">Edit</a>'+
-                                            '<a href="#" class="swipeout-delete" data-confirm="Are you sure want to delete this task?" data-confirm-title="Delete?" data-close-on-cancel="true">Delete</a>'+
+                                            '<a href="#" class="swipeout-delete" data-id="'+i+'" data-confirm="Are you sure want to delete this task?" data-confirm-title="Delete?" data-close-on-cancel="true">Delete</a>'+
                                         '</div>'+
                                         '<div class="sortable-handler"></div>'+
                                     '</li>');
@@ -241,8 +241,6 @@ function saveEditedTask(i) {
     // Add to local stroage
     localStorage.setItem('todos',JSON.stringify(todos));
 
-
-
     // reload the list
     var tab = todos[i].tab;
     fetchTodo(tab);
@@ -261,13 +259,29 @@ function saveEditedTask(i) {
 // Delete task from taskkan list //
 ///////////////////////////////////
 
-$$('.swipeout').on('delete', function () {
-    // myApp.alert('Thanks, item removed!');
+$$(document).on('delete','.swipeout', function () {
     
     console.log('attempting to delete task');
 
     // get tasks todo from local storage
     var todos = JSON.parse(localStorage.getItem('todos'));
 
+    // get the selected tasks index
+    var i = $$(this).data('id');
+
+    // get the tab this task is in
+    var tab = todos[i].tab;
+
+    // get current amount of tasks in tab this task is in.
+    var tabCount = $$('#'+tab+'-count').text();
+
+    // change amount of todos of tab this task was in
+    $$('#'+tab+'-count').html(tabCount - 1);
+
+    // remove task from array
+    todos.splice(i,1);
+
+    // Add to local stroage
+    localStorage.setItem('todos',JSON.stringify(todos));
 
 });
