@@ -20,7 +20,9 @@ var $$ = Dom7;
 // Init the tabs //
 ///////////////////
 
-fetchTodo();
+fetchTodo('todo');
+fetchTodo('doing');
+fetchTodo('done');
 
 ////////////////////
 // Add a new Task //
@@ -36,7 +38,8 @@ $$('#saveNewTask').click(function(event) {
     var todo = {
         title: newTaskTitle,
         description: newTaskDescription,
-        time: newTaskTime
+        time: newTaskTime,
+        tab: 'todo'
     }
 
     // Test if todo is null
@@ -64,7 +67,7 @@ $$('#saveNewTask').click(function(event) {
     }
 
     // reload the todo taskaan list
-    fetchTodo();
+    fetchTodo('todo');
 
 
     // close the add new task popup
@@ -77,47 +80,57 @@ $$('#saveNewTask').click(function(event) {
 
 });
 
-//////////////////////
-// Fetch tasks todo //
-//////////////////////
+/////////////////////////
+// Fetch taskann todos //
+////////////////////////
 
-function fetchTodo() {
+function fetchTodo(tab) {
 
     // get tasks todo from local storage
     var todos = JSON.parse(localStorage.getItem('todos'));
 
-    // set the amount of todos
-    $$('#todo-count').html(todos.length);
+    var tabCount = 0;
 
-    var tasklist = document.getElementById('tasklist');
+    // only fill the list if list isnt empty
+    if(todos != null){
 
-    // build the taskann list output
-    tasklist.innerHTML = '';
-    for (var i = 0; i < todos.length; i++) {
-        var title = todos[i].title;
-        var description = todos[i].description;
-        var time = todos[i].time;
+        // build the taskann list output    
+        var tasklist = document.getElementById(tab+'list');
+        tasklist.innerHTML = '';
+        for (var i = 0; i < todos.length; i++) {
+            
+            // only display tasks with tab set to todo
+            if(todos[i].tab === tab){
+                var title = todos[i].title;
+                var description = todos[i].description;
+                var time = todos[i].time;
 
-        tasklist.innerHTML +='<li class="swipeout">'+
-                                '<div class="swipeout-content">'+
-                                    '<a href="#" class="item-link item-content open-popover" data-popover=".popover-todo">'+
-                                        '<div class="item-inner">'+
-                                            '<div class="item-title-row">'+
-                                                '<div class="item-title">'+ title +'</div>'+
-                                                '<div class="item-after">'+ time +'</div>'+
-                                            '</div>'+
-                                            '<div class="item-text">'+ description +'</div>'+
+                tasklist.innerHTML +='<li class="swipeout" data-id="'+i+'">'+
+                                        '<div class="swipeout-content">'+
+                                            '<a href="#" class="item-link item-content open-popover" data-popover=".popover-todo">'+
+                                                '<div class="item-inner">'+
+                                                    '<div class="item-title-row">'+
+                                                        '<div class="item-title">'+ title +'</div>'+
+                                                        '<div class="item-after">'+ time +'</div>'+
+                                                    '</div>'+
+                                                    '<div class="item-text">'+ description +'</div>'+
+                                                '</div>'+
+                                            '</a>'+    
                                         '</div>'+
-                                    '</a>'+    
-                                '</div>'+
-                                '<div class="swipeout-actions-left">'+
-                                    '<a href="#" class="bg-orange open-edit-task-popup" id="'+ i +'">Edit</a>'+
-                                    '<a href="#" class="swipeout-delete" data-confirm="Are you sure want to delete this task?" data-confirm-title="Delete?" data-close-on-cancel="true">Delete</a>'+
-                                '</div>'+
-                                '<div class="sortable-handler"></div>'+
-                            '</li>';
-
+                                        '<div class="swipeout-actions-left">'+
+                                            '<a href="#" class="bg-orange open-edit-task-popup" id="'+ i +'">Edit</a>'+
+                                            '<a href="#" class="swipeout-delete" data-confirm="Are you sure want to delete this task?" data-confirm-title="Delete?" data-close-on-cancel="true">Delete</a>'+
+                                        '</div>'+
+                                        '<div class="sortable-handler"></div>'+
+                                    '</li>';
+                tabCount++;
+            }
+            
+        }
     }
+
+    // set the amount of todos
+    $$('#'+tab+'-count').html(tabCount);
 
 }
 
@@ -214,7 +227,7 @@ function saveEditedTask(i) {
     localStorage.setItem('todos',JSON.stringify(todos));
 
     // reload the list
-    fetchTodo();
+    fetchTodo(todos[i].tab);
 
     // close the modal
     myApp.closeModal('.popup-edit-task');
