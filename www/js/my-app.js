@@ -1,4 +1,6 @@
-// Initialize your app
+////////////////////////////////////
+// Initialize your app Framework7 //
+////////////////////////////////////
 var myApp = new Framework7({
     
     material:true,
@@ -6,8 +8,17 @@ var myApp = new Framework7({
     
 });
 
-// Export selectors engine
+/////////////////////////////
+// Export selectors engine //
+/////////////////////////////
 var $$ = Dom7;
+
+///////////////////
+// Add main view //
+///////////////////
+var mainView = myApp.addView('.view-main', {
+
+});
 
 /* 
     ---------------------------------
@@ -95,8 +106,9 @@ function fetchTodo(tab) {
     if(todos != null){
 
         // build the taskann list output    
-        var tasklist = document.getElementById(tab+'list');
-        tasklist.innerHTML = '';
+        // var tasklist = document.getElementById(tab+'list');
+        // tasklist.innerHTML = '';
+        $$('#'+tab+'list').html('');
         for (var i = 0; i < todos.length; i++) {
             
             // only display tasks with tab set to todo
@@ -105,7 +117,7 @@ function fetchTodo(tab) {
                 var description = todos[i].description;
                 var time = todos[i].time;
 
-                tasklist.innerHTML +='<li class="swipeout" data-id="'+i+'">'+
+                $$('#'+tab+'list').append('<li class="swipeout" data-id="'+i+'">'+
                                         '<div class="swipeout-content">'+
                                             '<a href="#" class="item-link item-content open-popover" data-popover=".popover-todo">'+
                                                 '<div class="item-inner">'+
@@ -122,7 +134,8 @@ function fetchTodo(tab) {
                                             '<a href="#" class="swipeout-delete" data-confirm="Are you sure want to delete this task?" data-confirm-title="Delete?" data-close-on-cancel="true">Delete</a>'+
                                         '</div>'+
                                         '<div class="sortable-handler"></div>'+
-                                    '</li>';
+                                    '</li>');
+
                 tabCount++;
             }
             
@@ -138,8 +151,10 @@ function fetchTodo(tab) {
 // Load the edit popup with selected popup content //
 /////////////////////////////////////////////////////
 
-$$('.open-edit-task-popup').click(function(event) {
+$$(document).on('click','.open-edit-task-popup',function(event) {
     
+    console.log('editing');
+
     // get tasks todo from local storage
     var todos = JSON.parse(localStorage.getItem('todos'));
 
@@ -226,11 +241,19 @@ function saveEditedTask(i) {
     // Add to local stroage
     localStorage.setItem('todos',JSON.stringify(todos));
 
+
+
     // reload the list
-    fetchTodo(todos[i].tab);
+    var tab = todos[i].tab;
+    fetchTodo(tab);
+
+    console.log(tab);
 
     // close the modal
     myApp.closeModal('.popup-edit-task');
+
+    // delete modal from the dom
+    $$('.popup-edit-task').remove(); 
 
 }
 
@@ -238,3 +261,13 @@ function saveEditedTask(i) {
 // Delete task from taskkan list //
 ///////////////////////////////////
 
+$$('.swipeout').on('delete', function () {
+    // myApp.alert('Thanks, item removed!');
+    
+    console.log('attempting to delete task');
+
+    // get tasks todo from local storage
+    var todos = JSON.parse(localStorage.getItem('todos'));
+
+
+});
