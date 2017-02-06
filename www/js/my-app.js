@@ -21,9 +21,10 @@ var $$ = Dom7;
  */
 
 ///////////////////
-// Init the tabs //
+// Init the app //
 ///////////////////
 
+fetchSettings();
 fetchTodo('todo');
 fetchTodo('doing');
 fetchTodo('done');
@@ -136,7 +137,15 @@ function fetchTodo(tab) {
     }
 
     // set the amount of todos
-    $$('#'+tab+'-count').html(tabCount);
+    if(tab === 'doing'){
+        $$('#'+tab+'-count').data('count', tabCount);
+        $$('#'+tab+'-count').text(tabCount + '/' + $$('#'+tab+'-count').data('wip'));
+    }else{
+
+        $$('#'+tab+'-count').text(''+tabCount);
+    }
+
+    console.log(tab+'-count: '+$$('#'+tab+'-count').html());
 
 }
 
@@ -266,10 +275,10 @@ $$(document).on('delete','.swipeout', function () {
     var tab = todos[i].tab;
 
     // get current amount of tasks in tab this task is in.
-    var tabCount = $$('#'+tab+'-count').text();
+    var tabCount = $$('#'+tab+'-count').data('count');
 
     // change amount of todos of tab this task was in
-    $$('#'+tab+'-count').html(tabCount - 1);
+    $$('#'+tab+'-count').text((tabCount - 1) + '/' + $$('#'+tab+'-count').data('count'));
 
     // remove task from array
     todos.splice(i,1);
@@ -430,3 +439,43 @@ $$(document).on('sortable:close', '.sortable', function(event) {
     $$('.toggle-sortable').find('.material-icons').text('sort');    
 
 });
+
+///////////////////////
+// fetch settings //
+///////////////////////
+
+function fetchSettings(){
+
+    console.log('attempting to fetch settings');
+
+    // init the array
+    settings = [];
+
+    // set default settings on new install of app
+    if(localStorage.getItem('settings') === null){
+
+        console.log('creating default settings');
+
+        var theSettings = {
+            wip:3
+        }
+
+        // add default settings to array
+        settings.push(theSettings);
+
+        // Add to local stroage
+        localStorage.setItem('settings',JSON.stringify(settings));
+
+    }else{
+
+        // get the apps settings from local storage
+        settings = JSON.parse(localStorage.getItem('settings'));
+
+    }
+
+    console.log(settings[0].wip);
+
+    // load setting
+    $$('#doing-count').data('wip',settings[0].wip);
+
+}
