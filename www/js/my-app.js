@@ -275,11 +275,15 @@ $$(document).on('delete','.swipeout', function () {
     var tab = todos[i].tab;
 
     // get current amount of tasks in tab this task is in.
-    var tabCount = $$('#'+tab+'-count').data('count');
+    var tabCount = (tab == 'doing') ? $$('#'+tab+'-count').data('count') : $$('#'+tab+'-count').text() ;
 
     // change amount of todos of tab this task was in
-    $$('#'+tab+'-count').text((tabCount - 1) + '/' + $$('#'+tab+'-count').data('count'));
+    var txt = (tab == 'doing') ? (tabCount - 1) + '/' + $$('#'+tab+'-count').data('wip') : (tabCount - 1) ;
+    $$('#'+tab+'-count').text(txt);
 
+    if(tab == 'doing')
+        $$('#'+tab+'-count').data('count',tabCount - 1);
+    
     // remove task from array
     todos.splice(i,1);
 
@@ -321,7 +325,7 @@ $$(document).on('click', '.openpopover', function(event) {
     }else if(tab === 'done'){
         popoverLinksHTML = '<ul>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-orange">note</i> Move to Todo </a></li>'+
-                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"done")><i class="icon material-icons color-green">done</i> Move to Doing</a></li>'+
+                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"doing")><i class="icon material-icons color-green">done</i> Move to Doing</a></li>'+
                             '</ul>';
                             
     }
@@ -367,8 +371,28 @@ function moveTask(i,tab) {
     // move task to selected tab
     todos[i].tab = tab;
 
-    // Add to local stroage
-    localStorage.setItem('todos',JSON.stringify(todos));    
+    // check whether wip allows more work
+    if(tab === 'doing'){
+
+        var wip = parseInt($$('#doing-count').data('wip'));
+        var tabCount = parseInt($$('#doing-count').data('count'));
+        var boolMoveTask  = (tabCount < wip) ? true : false ;
+
+        console.log('wip:' + wip + " | tabCount:" + tabCount + " | boolMoveTask:" + boolMoveTask)
+
+        if (boolMoveTask) {
+            // Add to local stroage
+            localStorage.setItem('todos',JSON.stringify(todos));
+        }else{
+            // display message
+            myApp.alert('You have reached the maximum amount of tasks to be doing. Complete your current task(s) or increase you WIP amount.','Oops');
+        }
+
+    }else{
+        // Add to local stroage
+        localStorage.setItem('todos',JSON.stringify(todos));
+    }
+
 
     // reload affected tabs
     fetchTodo(currentTab);
@@ -457,7 +481,7 @@ function fetchSettings(){
         console.log('creating default settings');
 
         var theSettings = {
-            wip:3
+            wip:2
         }
 
         // add default settings to array
@@ -479,3 +503,4 @@ function fetchSettings(){
     $$('#doing-count').data('wip',settings[0].wip);
 
 }
+
