@@ -63,20 +63,29 @@ $$('#saveNewTask').click(function(event) {
         // get tasks todo from local storage
         var todos = JSON.parse(localStorage.getItem('todos'));
 
-        // Add task to array
-        todos.push(todo);
+	    // validate unique title
+		var boolUniqueTitle = uniqueTitle(newTaskTitle,todos);
+		if(boolUniqueTitle == true){
+			// Add task to array
+	        todos.push(todo);
 
-        // Add to local stroage
-        localStorage.setItem('todos',JSON.stringify(todos));
+	        // Add to local stroage
+	        localStorage.setItem('todos',JSON.stringify(todos));
+
+	        // reload the todo taskaan list
+		    fetchTodo('todo');
+
+		    // close the add new task popup
+		    myApp.closeModal('.popup-new-task');
+
+		}else{
+
+			// display message
+			myApp.alert('Seems like the Title you entered is not unique. Try a different title','Oops');
+
+		}
 
     }
-
-    // reload the todo taskaan list
-    fetchTodo('todo');
-
-
-    // close the add new task popup
-    myApp.closeModal('.popup-new-task');
 
     // clear all form values
     $$('#newTaskTitle').val('');
@@ -233,27 +242,41 @@ function saveEditedTask(i) {
     var description = $$('#editDescription').val();
     var time = $$('#editTime').val();
 
-    // update selected task values
-    todos[i].title = title;
-    todos[i].description = description;
-    todos[i].time = time;
+    // get old title
+    var oldTitle = todos[i].title;
 
-    console.log(title+ '|' + description + "|" + time);
+    // validate unique title
+	var boolUniqueTitle = (oldTitle === title) ? true : uniqueTitle(title,todos);
+	console.log('boolUniqueTitle: ' + boolUniqueTitle);
+	if(boolUniqueTitle){
+		
+		// update selected task values
+	    todos[i].title = title;
+	    todos[i].description = description;
+	    todos[i].time = time;
 
-    // Add to local stroage
-    localStorage.setItem('todos',JSON.stringify(todos));
+        console.log(title+ '|' + description + "|" + time);
 
-    // reload the list
-    var tab = todos[i].tab;
-    fetchTodo(tab);
+        // Add to local stroage
+        localStorage.setItem('todos',JSON.stringify(todos));
 
-    console.log(tab);
+	    // reload the list
+	    var tab = todos[i].tab;
+	    fetchTodo(tab);
 
-    // close the modal
-    myApp.closeModal('.popup-edit-task');
+	    // close the modal
+	    myApp.closeModal('.popup-edit-task');
 
-    // delete modal from the dom
-    $$('.popup-edit-task').remove(); 
+	    // delete modal from the dom
+	    $$('.popup-edit-task').remove(); 
+
+
+	}else{
+
+		// display message
+		myApp.alert('Seems like the Title you entered is not unique. Try a different title','Oops');
+
+	}
 
 }
 
@@ -608,4 +631,32 @@ function viewTask(i) {
 
     myApp.hideIndicator();
     myApp.popup(popupHTML);
+}
+
+///////////////////////////
+// validate unique title //
+///////////////////////////
+
+function uniqueTitle(title,todos) {
+	
+	// remove any trailing whitespaces from 
+	title = title.trim();
+	
+	// check whether title is empty
+	if(title.length == 0){
+		console.log('title is empty | containg whitespaces');
+		return false;
+	}else{
+		
+		// check whether title is unique
+		for (var i = 0; i < todos.length; i++) {
+			if(todos[i].title === title){
+				return false;
+			}
+		}
+
+	}
+
+	return true;
+
 }
