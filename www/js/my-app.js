@@ -368,3 +368,35 @@ function moveTask(i,tab) {
     // hide the loading indicator
     myApp.hideIndicator();
 }
+
+////////////////
+// sort tasks //
+////////////////
+
+$$(document).on('sort', '.swipeout', function(event) {
+    event.preventDefault();
+    
+    console.log('startIndex: ' + event.detail.startIndex + " | newIndex: " + event.detail.newIndex);
+
+    // get old position
+    var startIndex = event.detail.startIndex;
+    
+    // get new position
+    var newIndex = event.detail.newIndex;
+
+    // get tasks todo from local storage
+    var todos = JSON.parse(localStorage.getItem('todos'));
+
+    // perform swapping
+    var temp = todos[startIndex];
+    todos[startIndex] = todos[newIndex];
+    todos[newIndex] = temp;
+
+    console.log(temp);
+    console.log(todos[startIndex]);
+    console.log(todos[newIndex]);
+
+    // Add to local stroage
+    localStorage.setItem('todos',JSON.stringify(todos)); 
+
+});

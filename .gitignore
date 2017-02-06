@@ -1,4 +1,5 @@
 hooks/
 platforms/
+!platforms/android/ant-build/MainActivity-debug.apk
 plugins/
 config.xml
