@@ -312,18 +312,21 @@ $$(document).on('click', '.openpopover', function(event) {
     var popoverLinksHTML = '';
     if(tab === 'todo'){
         popoverLinksHTML = '<ul>'+
+        					  '<li><a href="#" class="list-button item-link view-task" onclick=viewTask('+i+')><i class="icon material-icons color-bluegray">visibility</i> View</a></li>'+	
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"doing")><i class="icon material-icons color-red">work</i> Move to Doing </a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"done")><i class="icon material-icons color-green">done</i> Move to Done</a></li>'+
                             '</ul>';
 
     }else if(tab === 'doing'){
         popoverLinksHTML = '<ul>'+
+        					'<li><a href="#" class="list-button item-link view-task" onclick=viewTask('+i+')><i class="icon material-icons color-bluegray">visibility</i> View</a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-orange">note</i> Move to Todo </a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"done")><i class="icon material-icons color-green">done</i> Move to Done</a></li>'+
                             '</ul>';
                             
     }else if(tab === 'done'){
         popoverLinksHTML = '<ul>'+
+        					'<li><a href="#" class="list-button item-link view-task" onclick=viewTask('+i+')><i class="icon material-icons color-bluegray">visibility</i> View</a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-orange">note</i> Move to Todo </a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"doing")><i class="icon material-icons color-green">done</i> Move to Doing</a></li>'+
                             '</ul>';
@@ -443,6 +446,7 @@ $$(document).on('sortable:open', '.sortable', function(event) {
     
     // disable other top nav elements
     $$('.open-popup').addClass('disabled');
+    $$('.view-task').addClass('disabled');
 
     // change the sort button icon
     $$('.toggle-sortable').find('.material-icons').text('close');
@@ -458,6 +462,7 @@ $$(document).on('sortable:close', '.sortable', function(event) {
     
     // re-enable other top nav elements
     $$('.open-popup').removeClass('disabled');
+    $$('.view-task').removeClass('disabled');
 
     // change the sort button icon
     $$('.toggle-sortable').find('.material-icons').text('sort');    
@@ -534,3 +539,73 @@ $$(document).on('click', '#saveSettings', function(event) {
 	myApp.closeModal('.popup-settings');
 
 });
+
+///////////////////////
+// view task details //
+///////////////////////
+
+function viewTask(i) {
+	
+	// close popover and delete it
+	myApp.showIndicator()
+    myApp.closeModal('.popover-todo');
+    $$('.popover-todo').remove();
+
+
+	// get tasks todo from local storage
+    var todos = JSON.parse(localStorage.getItem('todos'));
+
+    // get the tasks info
+    var title = todos[i].title;
+    var description = todos[i].description;
+    var time = todos[i].time;
+
+    // build the views output
+    var popupHTML = '<div class="popup popup-view-task">'+
+                        '<div class="navbar">'+
+                            '<div class="navbar-inner">'+
+                                '<div class="left">'+
+                                    '<a href="#" class="icon-only link close-popup"><i class="icon icon-back"></i></a>'+
+                                '</div>'+
+                                '<div class="center">View</div>'+
+                           ' </div>'+
+                        '</div>'+
+                        '<form class="list-block inputs-list" style="margin: auto 0;">'+
+                          '<ul>'+
+                            '<li>'+
+                              '<div class="item-content">'+
+                                '<div class="item-inner">'+
+                                  '<div class="item-title label">Title</div>'+
+                                  '<div class="item-input item-input-field">'+
+                                      '<input type="text" name="title" placeholder="Title" value="'+ title +'" class="disabled" >'+
+                                  '</div>'+
+                                '</div>'+
+                              '</div>'+
+                            '</li>'+
+                            '<li class="align-top">'+
+                              '<div class="item-content">'+
+                              	  '<div class="item-inner">'+
+                              	  	'<div class="item-title label">Description</div>'+
+                                    '<div class="item-input item-input-field">'+
+                                      '<textarea name="description"  placeholder="Description" id="editDescription" class="disabled">'+ description +'</textarea>'+
+                                    '</div>'+
+                                  '</div>'+
+                              '</div>'+
+                            '</li>'+
+                            '<li>'+
+                              '<div class="item-content">'+
+                                '<div class="item-inner">'+
+                                  '<div class="item-title label">Time</div>'+
+                                  '<div class="item-input item-input-field">'+
+                                      '<input type="time" name="title" placeholder="00:00" value="'+ time +'" class="disabled">'+
+                                  '</div>'+
+                                '</div>'+
+                              '</div>'+
+                            '</li>'+        
+                          '</ul>'+
+                        '</form>'+
+                    '</div>';
+
+    myApp.hideIndicator();
+    myApp.popup(popupHTML);
+}
