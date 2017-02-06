@@ -305,13 +305,13 @@ $$(document).on('click', '.openpopover', function(event) {
 
     }else if(tab === 'doing'){
         popoverLinksHTML = '<ul>'+
-                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-red">work</i> Move to Todo </a></li>'+
+                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-orange">note</i> Move to Todo </a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"done")><i class="icon material-icons color-green">done</i> Move to Done</a></li>'+
                             '</ul>';
                             
     }else if(tab === 'done'){
         popoverLinksHTML = '<ul>'+
-                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-red">work</i> Move to Todo </a></li>'+
+                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-orange">note</i> Move to Todo </a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"done")><i class="icon material-icons color-green">done</i> Move to Doing</a></li>'+
                             '</ul>';
                             
@@ -373,7 +373,7 @@ function moveTask(i,tab) {
 // sort tasks //
 ////////////////
 
-$$(document).on('sort', '.swipeout', function(event) {
+$$(document).on('sortable:sort', '.swipeout', function(event) {
     event.preventDefault();
     
     console.log('startIndex: ' + event.detail.startIndex + " | newIndex: " + event.detail.newIndex);
@@ -398,5 +398,35 @@ $$(document).on('sort', '.swipeout', function(event) {
 
     // Add to local stroage
     localStorage.setItem('todos',JSON.stringify(todos)); 
+
+});
+
+////////////////////////////////////////////
+// disable nav links when in sorting mode //
+////////////////////////////////////////////
+
+$$(document).on('sortable:open', '.sortable', function(event) {
+    event.preventDefault();
+    
+    // disable other top nav elements
+    $$('.open-popup').addClass('disabled');
+
+    // change the sort button icon
+    $$('.toggle-sortable').find('.material-icons').text('close');
+
+});
+
+/////////////////////////////////////////////////
+// re-enable nav links when sort mode complete //
+/////////////////////////////////////////////////
+
+$$(document).on('sortable:close', '.sortable', function(event) {
+    event.preventDefault();
+    
+    // re-enable other top nav elements
+    $$('.open-popup').removeClass('disabled');
+
+    // change the sort button icon
+    $$('.toggle-sortable').find('.material-icons').text('sort');    
 
 });
