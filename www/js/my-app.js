@@ -13,13 +13,6 @@ var myApp = new Framework7({
 /////////////////////////////
 var $$ = Dom7;
 
-///////////////////
-// Add main view //
-///////////////////
-var mainView = myApp.addView('.view-main', {
-
-});
-
 /* 
     ---------------------------------
     Applications Logic begins here.
@@ -119,7 +112,7 @@ function fetchTodo(tab) {
 
                 $$('#'+tab+'list').append('<li class="swipeout" data-id="'+i+'">'+
                                         '<div class="swipeout-content">'+
-                                            '<a href="#" class="item-link item-content open-popover" data-popover=".popover-todo">'+
+                                            '<a href="#" class="item-link item-content openpopover" data-id="'+i+'" data-tab="'+tab+'">'+
                                                 '<div class="item-inner">'+
                                                     '<div class="item-title-row">'+
                                                         '<div class="item-title">'+ title +'</div>'+
@@ -285,3 +278,93 @@ $$(document).on('delete','.swipeout', function () {
     localStorage.setItem('todos',JSON.stringify(todos));
 
 });
+
+//////////////////////////////////////////
+// Add popover on selected task element //
+//////////////////////////////////////////
+
+$$(document).on('click', '.openpopover', function(event) {
+    event.preventDefault();
+    
+    // the target element to add the popover to, set to the clicked task 
+    var clickedLink = this;
+
+    // get the id of the selected task
+    var i = $$(this).data('id');
+
+    // get the tab this task is in
+    var tab = $$(this).data('tab');
+
+    // set correct links according to tab task is in
+    var popoverLinksHTML = '';
+    if(tab === 'todo'){
+        popoverLinksHTML = '<ul>'+
+                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"doing")><i class="icon material-icons color-red">work</i> Move to Doing </a></li>'+
+                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"done")><i class="icon material-icons color-green">done</i> Move to Done</a></li>'+
+                            '</ul>';
+
+    }else if(tab === 'doing'){
+        popoverLinksHTML = '<ul>'+
+                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-red">work</i> Move to Todo </a></li>'+
+                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"done")><i class="icon material-icons color-green">done</i> Move to Done</a></li>'+
+                            '</ul>';
+                            
+    }else if(tab === 'done'){
+        popoverLinksHTML = '<ul>'+
+                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-red">work</i> Move to Todo </a></li>'+
+                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"done")><i class="icon material-icons color-green">done</i> Move to Doing</a></li>'+
+                            '</ul>';
+                            
+    }
+
+    // build the popoverHTML
+    var popoverHTML = '<div class="popover popover-todo" style="width: 200px">'+
+                            '<div class="popover-angle"></div>'+
+                                '<div class="popover-inner">'+
+                                    '<div class="list-block">'+ 
+                                        popoverLinksHTML+
+                                    '</div>'+
+                            '</div>'+
+                        '</div>';
+
+    console.log('task-id:' + i + ' | task-tab:' +tab);
+
+    // load/display the popover
+    myApp.popover(popoverHTML,clickedLink);
+
+}); 
+
+///////////////////////////////
+// move task to selected tab //
+///////////////////////////////
+
+function moveTask(i,tab) {
+    
+    console.log('attempt moving task-id['+i+'] to tab: '+tab);
+
+    // close popover and delete it
+    myApp.closeModal('.popover-todo');
+    $$('.popover-todo').remove();
+
+    // show loading indicator
+    myApp.showIndicator();
+
+    // get tasks todo from local storage
+    var todos = JSON.parse(localStorage.getItem('todos'));
+
+    // get tasks current tab
+    var currentTab = todos[i].tab;
+
+    // move task to selected tab
+    todos[i].tab = tab;
+
+    // Add to local stroage
+    localStorage.setItem('todos',JSON.stringify(todos));    
+
+    // reload affected tabs
+    fetchTodo(currentTab);
+    fetchTodo(tab);
+
+    // hide the loading indicator
+    myApp.hideIndicator();
+}
