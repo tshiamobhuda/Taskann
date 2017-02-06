@@ -501,6 +501,36 @@ function fetchSettings(){
 
     // load setting
     $$('#doing-count').data('wip',settings[0].wip);
+    $$('#wipSetting').val(settings[0].wip);
 
 }
 
+///////////////////
+// save settings //
+///////////////////
+
+$$(document).on('click', '#saveSettings', function(event) {
+    event.preventDefault();
+    
+    // get new settings from form elements
+    var wip = $$('#wipSetting').val();
+
+    // get the apps settings from local storage
+    settings = JSON.parse(localStorage.getItem('settings'));
+
+    // set settings
+    settings[0].wip = wip;
+
+    // Add to local stroage
+    localStorage.setItem('settings',JSON.stringify(settings));
+
+    // reload tabs
+    fetchSettings();
+    fetchTodo('todo');
+	fetchTodo('doing');
+	fetchTodo('done');
+
+	// close the popup
+	myApp.closeModal('.popup-settings');
+
+});

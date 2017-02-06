@@ -42,15 +42,15 @@
                     <a href="#tab1" class="active tab-link"> 
                         <!-- <i class="icon material-icons">today</i> -->
                         <span class="tabbar-label">TO DO</span>
-                        <sup class="badge bg-orange" id="todo-count">5</sup>
+                        <sup class="badge bg-orange" id="todo-count">0</sup>
                     </a>
                     <a href="#tab2" class="tab-link">
                         <i class="icon material-icons">work</i>
-                        <div class="badge bg-red" id="doing-count">1<span id="wipSetting">/0</span></div>
+                        <div class="badge bg-red" id="doing-count">0/0</div>
                     </a>
                     <a href="#tab3" class="tab-link">
                         <i class="icon material-icons">done</i>
-                        <sup class="badge bg-green" id="done-count">7</sup>
+                        <sup class="badge bg-green" id="done-count">0</sup>
                     </a>
                 </div>
               </div>
@@ -102,7 +102,7 @@
                 </div>
                 <div class="center">Preferences</div>
                 <div class="right">
-                    <a href="#" class="icon-only link close-popup"><i class="material-icons icon">save</i></a>
+                    <a href="#" class="icon-only link" id="saveSettings"><i class="material-icons icon">save</i></a>
                 </div>
             </div>
         </div>
@@ -112,7 +112,20 @@
         </div>
 
         <div class="content-block">
-            
+            <form class="list-block inputs-list">
+              <ul>
+                <li>
+                  <div class="item-content">
+                    <div class="item-inner"> 
+                      <div class="item-title label">WIP (Work In Progress)</div>
+                      <div class="item-input item-input-field">
+                        <input placeholder="2" type="number" min="1" id="wipSetting"/>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </form>
         </div>
 
     </div>
