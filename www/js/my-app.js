@@ -145,10 +145,15 @@ function fetchTodo(tab) {
         }
     }
 
-    // set the amount of todos
+    
     if(tab === 'doing'){
+    	// set the amount of todos
         $$('#'+tab+'-count').data('count', tabCount);
         $$('#'+tab+'-count').text(tabCount + '/' + $$('#'+tab+'-count').data('wip'));
+
+        // set the sum of amount of time task(s) will take
+        $$('#timeEstimated').text(addTime());
+
     }else{
 
         $$('#'+tab+'-count').text(''+tabCount);
@@ -658,5 +663,95 @@ function uniqueTitle(title,todos) {
 	}
 
 	return true;
+
+}
+
+//////////////////////////////////////
+// Add all times of tasks in doing  //
+//////////////////////////////////////
+
+function addTime() {
+	
+	// get tasks todo from local storage
+    var todos = JSON.parse(localStorage.getItem('todos'));
+
+    // init variables to store task time, sum of all seconds
+    var seconds = 0;
+    var t = 0;
+
+    // get times of tasks
+    for (var i = 0; i < todos.length; i++) {
+    	
+    	// only get times of tasks in doing tab
+    	if (todos[i].tab === 'doing') {
+
+    		t = todos[i].time;
+    		t = t.split(':');
+
+    		// convert time to seconds and add
+    		seconds += parseInt(t[0])*60*60 + parseInt(t[1])*60 + parseInt(t[2]);
+    
+    	}
+
+    }
+
+    // convert seconds to HH:MM:SS format.
+    var m=Math.floor(seconds/60); seconds=seconds%60;
+	var h=Math.floor(m/60); m=m%60;
+	var d=Math.floor(h/24); h=h%24;
+	
+	// Add leading zeros to numbers below 10
+	d = (d < 10) ? '0'+d:d;
+	h = (h < 10) ? '0'+h:h;
+	m = (m < 10) ? '0'+m:m;
+	seconds = (seconds < 10) ? '0'+seconds:seconds;
+
+	console.log(d+':'+h+':'+m+':'+seconds);
+
+	return d+':'+h+':'+m+':'+seconds;
+
+	/* function logic adapted from blog answer made 23 Jul 2005. url: https://bytes.com/topic/javascript/answers/148262-adding-2-times-together*/
+}
+
+/////////////////
+// start timer //
+/////////////////
+
+$$(document).on('click', '#btnTimer', function(event) {
+	event.preventDefault();
+
+	// time the button is clicked
+	var dt = new Date();
+		
+	// start timer
+	runTimer(dt);
+
+	// dont allow clicking of timer once timer has started
+	$$(this).addClass('disabled');
+
+});
+
+
+///////////////////
+// run the timer //
+///////////////////
+
+function runTimer(dt){
+	
+	var today = Date.parse(new Date()) - Date.parse(dt);
+	var s = Math.floor( (today/1000) % 60 );
+	var m = Math.floor( (today/1000/60) % 60 );
+	var h = Math.floor( (today/(1000*60*60)) % 24 );
+	var d = Math.floor( today/(1000*60*60*24) );
+	
+	// Add leading zeros to numbers below 10
+	d = (d < 10) ? '0'+d:d;
+	h = (h < 10) ? '0'+h:h;
+	m = (m < 10) ? '0'+m:m;
+	s = (s < 10) ? '0'+s:s;
+
+	$$("#timeElasped").text(d+":"+h+":"+m+":"+s);
+
+	setTimeout(function(){runTimer(dt)}, 500);
 
 }
