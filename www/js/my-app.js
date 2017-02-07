@@ -28,7 +28,7 @@ fetchSettings();
 fetchTodo('todo');
 fetchTodo('doing');
 fetchTodo('done');
-var myTimer = new Timer('timeElasped');
+var myTimer = new Timer('timeElasped','timeEstimated','btnPauseTimer','Tone');
 
 ////////////////////
 // Add a new Task //
@@ -154,6 +154,12 @@ function fetchTodo(tab) {
 
         // set the sum of amount of time task(s) will take
         $$('#timeEstimated').text(addTime());
+
+        // undisable timer if there are tasks to do
+        if(tabCount > 0) 
+        	$$('.timer-container').removeClass('disabled');
+        else
+        	$$('.timer-container').addClass('disabled');
 
     }else{
 
@@ -809,7 +815,7 @@ $$(document).on('click', '#btnPauseTimer', function(event) {
 // the timer prototype object (class) //
 ////////////////////////////////////////
 
-function Timer(elem) {
+function Timer(elem,estimatedTime,pausebtn,tone) {
 	
 	// init element to display time in
 	this.elem = elem;
@@ -837,6 +843,9 @@ function Timer(elem) {
 		if(timrstatus==true){
 			timr=setInterval(ticking,1000); /* calls ticking() repeatedly after 1 sec */ 
 			timrstatus=false; /* altering timerstatus */
+
+			// remove disabling of pause btn
+			$$('#'+pausebtn).removeClass('disabled');
 		}
 	}
 
@@ -901,6 +910,28 @@ function Timer(elem) {
 
 		$$("#"+elem).text(d_+":"+h_+":"+m_+":"+s_); 
 
+		playtone();
+
+	}
+
+	// playsound when estimated time is reached
+	function playtone() {
+		if($$('#'+elem).text() === $$('#'+estimatedTime).text()){
+			
+			// play the sound
+			$$('#'+tone)[0].play();
+			
+			// pause the timer
+			clearInterval(timr); 
+			timrstatus=true;
+
+			// dont allow clicking of pause button
+			$$('#'+pausebtn).addClass('disabled');
+
+			// display message
+			myApp.alert('The estimated time to complete the task(s) has expired.','')
+
+		}
 	}
 
 	// - See more at: http://yourravi.com/create-simple-javascript-stopwatch-timer-tutorial-and-download/#sthash.wXPywPTc.dpuf
