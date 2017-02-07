@@ -28,6 +28,7 @@ fetchSettings();
 fetchTodo('todo');
 fetchTodo('doing');
 fetchTodo('done');
+var myTimer = new Timer('timeElasped');
 
 ////////////////////
 // Add a new Task //
@@ -720,38 +721,187 @@ function addTime() {
 $$(document).on('click', '#btnTimer', function(event) {
 	event.preventDefault();
 
-	// time the button is clicked
-	var dt = new Date();
-		
-	// start timer
-	runTimer(dt);
+	console.log('attempting to start timer');
+	console.log('data-running: '+$$('#btnTimer').data('running'));
+	
+	var running = $$(this).data('running');
 
-	// dont allow clicking of timer once timer has started
-	$$(this).addClass('disabled');
+	if(running == 'no'){
+
+		myTimer.start();
+
+		// change btnTimer icon
+		$$(this).find('.material-icons').text('stop');
+
+		// change data-running to yes
+		$$(this).data('running','yes')
+
+		console.log('timer started');
+
+	}else{
+		
+		myTimer.stop();
+
+		// reset icon
+		$$(this).find('.material-icons').text('timer');
+
+		// reset data-running to yes 
+		$$(this).data('running','no');
+
+		console.log('timer stoped');
+
+		// if timer was paused reset the icon and data-paused too
+		if($$('#btnPauseTimer').data('paused') == 'yes'){
+
+			console.log('timer was paused before stopping, data-paused:' + $$('#btnPauseTimer').data('paused'));
+
+			// change icon
+			$$('#btnPauseTimer').find('.material-icons').text('pause');
+
+			// change data-paused to yes
+			$$('#btnPauseTimer').data('paused', 'no');
+		}
+
+	}
 
 });
 
+/////////////////////
+// pause the timer //
+/////////////////////
 
-///////////////////
-// run the timer //
-///////////////////
-
-function runTimer(dt){
+$$(document).on('click', '#btnPauseTimer', function(event) {
+	event.preventDefault();
 	
-	var today = Date.parse(new Date()) - Date.parse(dt);
-	var s = Math.floor( (today/1000) % 60 );
-	var m = Math.floor( (today/1000/60) % 60 );
-	var h = Math.floor( (today/(1000*60*60)) % 24 );
-	var d = Math.floor( today/(1000*60*60*24) );
+	var paused = $$(this).data('paused');
+
+	console.log(myTimer.isrunning());
+
+	// do nothing when timer isnt running
+	if (myTimer.isrunning() != true) return;
+
+	if(paused == 'no'){
+		
+		// pause the timer
+		myTimer.pause();
+
+		// change icon
+		$$(this).find('.material-icons').text('forward');
+
+		// change data-paused to yes
+		$$(this).data('paused', 'yes');
+
+	}else{
+		// resume the timer
+		myTimer.start();
+
+		// change icon
+		$$(this).find('.material-icons').text('pause');
+
+		// change data-paused to yes
+		$$(this).data('paused', 'no');
+
+	}
+
+});
+
+////////////////////////////////////////
+// the timer prototype object (class) //
+////////////////////////////////////////
+
+function Timer(elem) {
 	
-	// Add leading zeros to numbers below 10
-	d = (d < 10) ? '0'+d:d;
-	h = (h < 10) ? '0'+h:h;
-	m = (m < 10) ? '0'+m:m;
-	s = (s < 10) ? '0'+s:s;
+	// init element to display time in
+	this.elem = elem;
 
-	$$("#timeElasped").text(d+":"+h+":"+m+":"+s);
+	// init timer private properties
+	var d=00;
+	var h=00;
+	var m=00;
+	var s=00;
+	var timr;
 
-	setTimeout(function(){runTimer(dt)}, 500);
+	// month, year status; false, by defalut
+	var mup,hup;
 
+	// setting timer status
+	var timrstatus=true; 
+
+	// init timer public methods
+	var start = null;
+	var pause = null;
+	var stop = null;
+
+	// start the timer
+	this.start = function(){ 
+		if(timrstatus==true){
+			timr=setInterval(ticking,1000); /* calls ticking() repeatedly after 1 sec */ 
+			timrstatus=false; /* altering timerstatus */
+		}
+	}
+
+	// pause the timer
+	this.pause = function() { 
+		clearInterval(timr); /* stop repeated calling of ticking function */ 
+		timrstatus=true; /* altering timerstaus */ 
+	}
+
+	// stop the timer
+	this.stop = function() { 
+		clearInterval(timr); /* stop repeated calling of ticking function */ 
+		d=00;
+		h=00;
+		m=00;
+		s=00;
+
+		/* resetting all values back to 00 */ 
+		$$("#"+elem).text("00:00:00:00");
+		timrstatus=true; /* altering timerstaus */ 
+	} 
+
+	// return the timers status
+	this.isrunning = function() {
+		if(d == 00 && h == 00 & m == 00 && s == 00)
+			return false;
+		else
+			return true;
+	}
+
+	// perform ticking. called after every 1000ms
+	function ticking(){ 
+
+		if(s<59){
+			s=s+01;
+			mup=false;
+			hup=false;
+		} /* 1 */ else if(s==59){
+			s=00;
+			mup=true;
+		} /* 2 */ 
+
+		if(mup==true && m<59){
+			m=m+01;
+		} /* 3 */ else if(mup==true && m==59){
+			m=00;
+			hup=true;
+		} /* 4 */ 
+
+		if(hup==true && h<23){
+			h=h+01;
+		} /* 5 */ else if(hup==true && h==23){
+			h=00;
+			d=d+01;
+		} /* 6 */ 
+
+		// Add leading zeros to numbers below 10
+		d_ = (d < 10) ? '0'+d:d;
+		h_ = (h < 10) ? '0'+h:h;
+		m_ = (m < 10) ? '0'+m:m;
+		s_ = (s < 10) ? '0'+s:s;
+
+		$$("#"+elem).text(d_+":"+h_+":"+m_+":"+s_); 
+
+	}
+
+	// - See more at: http://yourravi.com/create-simple-javascript-stopwatch-timer-tutorial-and-download/#sthash.wXPywPTc.dpuf
 }
