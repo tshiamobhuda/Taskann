@@ -201,12 +201,13 @@ $$(document).on('click','.open-edit-task-popup',function(event) {
                                ' </div>'+
                            ' </div>'+
                         '</div>'+
-                        '<div class="list-block" style="margin: auto 0;">'+
+                        '<div class="list-block inputs-list" style="margin: auto 0;">'+
                           '<ul>'+
                             '<li>'+
                               '<div class="item-content">'+
                                 '<div class="item-inner">'+
-                                  '<div class="item-input">'+
+                                	'<div class="item-title label">Title</div>'+
+                                  '<div class="item-input item-input-field">'+
                                       '<input type="text" name="title" placeholder="Title" value="'+ title +'" id="editTitle">'+
                                   '</div>'+
                                 '</div>'+
@@ -215,7 +216,8 @@ $$(document).on('click','.open-edit-task-popup',function(event) {
                             '<li class="align-top">'+
                               '<div class="item-content">'+
                                 '<div class="item-inner">'+
-                                  '<div class="item-input">'+
+                                  '<div class="item-title label">Description</div>'+
+                                  '<div class="item-input item-input-field">'+
                                       '<textarea name="description"  placeholder="Description" id="editDescription">'+ description +'</textarea>'+
                                   '</div>'+
                                 '</div>'+
@@ -224,7 +226,8 @@ $$(document).on('click','.open-edit-task-popup',function(event) {
                             '<li>'+
                               '<div class="item-content">'+
                                 '<div class="item-inner">'+
-                                  '<div class="item-input">'+
+                                  '<div class="item-title label">Estimated Time</div>'+
+                                  '<div class="item-input item-input-field">'+
                                       '<input type="time" name="title" placeholder="00:00" value="'+ time +'" id="editTime">'+
                                   '</div>'+
                                 '</div>'+
@@ -630,7 +633,7 @@ function viewTask(i) {
                             '<li>'+
                               '<div class="item-content">'+
                                 '<div class="item-inner">'+
-                                  '<div class="item-title label">Time</div>'+
+                                  '<div class="item-title label">Estimated Time</div>'+
                                   '<div class="item-input item-input-field">'+
                                       '<input type="time" name="title" placeholder="00:00" value="'+ time +'" class="disabled">'+
                                   '</div>'+
