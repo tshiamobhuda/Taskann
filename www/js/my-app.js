@@ -123,7 +123,7 @@ function fetchTodo(tab) {
 
                 $$('#'+tab+'list').append('<li class="swipeout" data-id="'+i+'">'+
                                         '<div class="swipeout-content">'+
-                                            '<a href="#" class="item-link item-content openpopover" data-id="'+i+'" data-tab="'+tab+'">'+
+                                            '<a href="#" class="item-link item-content openpopover task-item" data-id="'+i+'" data-tab="'+tab+'">'+
                                                 '<div class="item-inner">'+
                                                     '<div class="item-title-row">'+
                                                         '<div class="item-title">'+ title +'</div>'+
@@ -328,6 +328,10 @@ $$(document).on('delete','.swipeout', function () {
     // Add to local stroage
     localStorage.setItem('todos',JSON.stringify(todos));
 
+    // re-add openpopover if it had been removed
+    if($$('.task-item').hasClass('openpopover') != true)
+    	$$('.task-item').addClass('openpopover');
+
 });
 
 //////////////////////////////////////////
@@ -366,7 +370,7 @@ $$(document).on('click', '.openpopover', function(event) {
         popoverLinksHTML = '<ul>'+
         					'<li><a href="#" class="list-button item-link view-task" onclick=viewTask('+i+')><i class="icon material-icons color-bluegray">visibility</i> View</a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-orange">note</i> Move to Todo </a></li>'+
-                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"doing")><i class="icon material-icons color-green">done</i> Move to Doing</a></li>'+
+                              '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"doing")><i class="icon material-icons color-red">work</i> Move to Doing</a></li>'+
                             '</ul>';
                             
     }
@@ -489,6 +493,8 @@ $$(document).on('sortable:open', '.sortable', function(event) {
     // change the sort button icon
     $$('.toggle-sortable').find('.material-icons').text('close');
 
+    // disable openning of popover menu
+    $$('.task-item').removeClass('openpopover');
 });
 
 /////////////////////////////////////////////////
@@ -505,6 +511,8 @@ $$(document).on('sortable:close', '.sortable', function(event) {
     // change the sort button icon
     $$('.toggle-sortable').find('.material-icons').text('sort');    
 
+    // re-enable openning of popover menu
+    $$('.task-item').addClass('openpopover');
 });
 
 ///////////////////////
@@ -938,4 +946,29 @@ function Timer(elem,estimatedTime,pausebtn,tone) {
 	}
 
 	// - See more at: http://yourravi.com/create-simple-javascript-stopwatch-timer-tutorial-and-download/#sthash.wXPywPTc.dpuf
+
 }
+
+////////////////////////////////////////////////////////
+// remove openning of popover once swipeout is active //
+////////////////////////////////////////////////////////
+
+$$(document).on('open','.swipeout',function(event) {
+	event.preventDefault();
+	
+	console.log('swipeout opening');
+	$$('.task-item').removeClass('openpopover');
+
+});
+
+///////////////////////////////////////////////
+// re-add openning event when not swipeout   //
+///////////////////////////////////////////////
+
+$$(document).on('close','.swipeout', function(event) {
+	event.preventDefault();
+
+	console.log('swipeout closing');
+	$$('.task-item').addClass('openpopover');
+
+});
