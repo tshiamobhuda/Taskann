@@ -299,7 +299,7 @@ function saveEditedTask(i) {
 // Delete task from taskkan list //
 ///////////////////////////////////
 
-$$(document).on('delete','.swipeout', function () {
+$$(document).on('deleted','.swipeout', function () {
     
     console.log('attempting to delete task');
 
