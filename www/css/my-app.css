@@ -1,0 +1,12 @@
+/*dealing with timer buttons*/
+
+.timer-btn{
+	text-align: center;
+	padding: 8px;
+	display: inline-block;
+	width: auto !important;
+	min-width: initial;
+	overflow: hidden;
+	position: relative;
+	border-radius: 8%;
+}

@@ -67,33 +67,32 @@
                         </div> 
 
                     </div>
-                    <div id="tab2" class="page-content tab">
+                    <div id="tab2" class="page-content tab ">
                         
-                        <div class="content-block disabled timer-container" style="margin: 8px 0;">
+                        <div class="content-block disabled timer-container" style="margin: 16px 0; z-index: 0;">
                             <div class="row">
-                                <div class="col-25">
-                                    <a href="#" class=" icon-only button button-raised" id="btnTimer" data-running="no">
+                                <div class="col-20">
+                                    <a href="#" class="timer-btn button-raised ripple" id="btnTimer" data-running="no" >
                                         <i class="icon material-icons" >timer</i>
                                     </a>
                                 </div>
-                                <div class="col-25">
-                                    <a href="#" class=" icon-only button button-raised" id="btnPauseTimer" data-paused="no">
+                                <div class="col-20">
+                                    <a href="#" class="timer-btn button-raised ripple" id="btnPauseTimer" data-paused="no" >
                                         <i class="material-icons icon" >pause</i>
                                     </a>
                                 </div>
-                                <div class="col-50" style="text-align: right;">
-                                    <a href="#" class="item-link item-content" >
-                                        <div class="item-inner">
-                                            <div class="item-title-row">
-                                                <div class="item-title">
-                                                    <small>estimated </small><span id="timeEstimated">00:00:00:00</span>
-                                                </div>
-                                                <div class="item-after">
-                                                    <small>elapsed </small><span class="color-deeporange" id="timeElasped">00:00:00:00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
+                                <div class="col-60 color-bluegray" style="text-align: right;">
+                                	<div class="row">
+                                		<div class="col-auto">
+                                			<small>estimated </small><span id="timeEstimated">00:00:00:00</span>
+                                		</div>	
+                                	</div>
+                                	<div class="row">
+                                		<div class="col-auto">
+                                			<small>elapsed </small><span class="color-deeporange" id="timeElasped">00:00:00:00</span>
+                                		</div>	
+                                	</div>
+
                                 </div>
                             </div>
                         </div>
