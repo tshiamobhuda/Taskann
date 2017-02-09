@@ -319,8 +319,12 @@ $$(document).on('deleted','.swipeout', function () {
     var txt = (tab == 'doing') ? (tabCount - 1) + '/' + $$('#'+tab+'-count').data('wip') : (tabCount - 1) ;
     $$('#'+tab+'-count').text(txt);
 
-    if(tab == 'doing')
+    if(tab == 'doing'){
         $$('#'+tab+'-count').data('count',tabCount - 1);
+	    	
+	    // re-enable timer
+	    $$('.timer-container').removeClass('disabled');
+    }
     
     // remove task from array
     todos.splice(i,1);
@@ -495,6 +499,10 @@ $$(document).on('sortable:open', '.sortable', function(event) {
 
     // disable openning of popover menu
     $$('.task-item').removeClass('openpopover');
+
+    // disable timer/stopwatch
+    $$('.timer-container').addClass('disabled');
+
 });
 
 /////////////////////////////////////////////////
@@ -513,6 +521,9 @@ $$(document).on('sortable:close', '.sortable', function(event) {
 
     // re-enable openning of popover menu
     $$('.task-item').addClass('openpopover');
+
+    // disable timer/stopwatch
+    $$('.timer-container').removeClass('disabled');
 });
 
 ///////////////////////
@@ -703,12 +714,18 @@ function addTime() {
     	// only get times of tasks in doing tab
     	if (todos[i].tab === 'doing') {
 
-    		t = todos[i].time;
-    		t = t.split(':');
+    		// only add tasks with time
+    		if(todos[i].time != ''){
+	    		t = todos[i].time;
+	    		t = t.split(':');
 
-    		// convert time to seconds and add
-    		seconds += parseInt(t[0])*60*60 + parseInt(t[1])*60 + parseInt(t[2]);
-    
+	    		// append seconds to time
+	    		t[2] = '00';
+
+	    		// convert time to seconds and add
+	    		seconds += parseInt(t[0])*60*60 + parseInt(t[1])*60 + parseInt(t[2]);
+    		}
+
     	}
 
     }
@@ -958,6 +975,7 @@ $$(document).on('open','.swipeout',function(event) {
 	
 	console.log('swipeout opening');
 	$$('.task-item').removeClass('openpopover');
+	$$('.timer-container').addClass('disabled');
 
 });
 
@@ -970,5 +988,6 @@ $$(document).on('close','.swipeout', function(event) {
 
 	console.log('swipeout closing');
 	$$('.task-item').addClass('openpopover');
+	$$('.timer-container').removeClass('disabled');
 
 });

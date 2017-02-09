@@ -55,8 +55,8 @@
                 </div>
               </div>
 
-              <div class="tabs-animated-wrap">
-                <div class="tabs">
+              <!-- <div class="tabs-animated-wrap"> -->
+                <div class="tabs" style="height: 100%">
                     <div id="tab1" class="page-content tab active">
                             
                         <!-- Media list block has additional "media-list" class -->
@@ -69,7 +69,7 @@
                     </div>
                     <div id="tab2" class="page-content tab ">
                         
-                        <div class="content-block disabled timer-container" style="margin: 16px 0; z-index: 0;">
+                        <div class="content-block disabled timer-container" style="margin: 16px 0; z-index: auto;">
                             <div class="row">
                                 <div class="col-20">
                                     <a href="#" class="timer-btn button-raised ripple" id="btnTimer" data-running="no" >
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                 </div>
-                </div>
+              <!-- </div> -->
             </div>
         </div>
       </div>
@@ -204,7 +204,7 @@
                 <div class="item-inner">
                 	<div class="item-title label">Estimated Time</div>
                   <div class="item-input item-input-field">
-                      <input type="text" name="title" placeholder="i.e HH:MM" id="newTaskTime">
+                      <input type="time" name="title" placeholder="i.e HH:MM" id="newTaskTime">
                   </div>
                 </div>
               </div>
