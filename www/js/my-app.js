@@ -28,7 +28,7 @@ fetchSettings();
 fetchTodo('todo');
 fetchTodo('doing');
 fetchTodo('done');
-var myTimer = new Timer('timeElasped','timeEstimated','btnPauseTimer','Tone');
+var myTimer = new Timer('timeElasped','timeEstimated','btnPauseTimer');
 
 ////////////////////
 // Add a new Task //
@@ -843,7 +843,7 @@ $$(document).on('click', '#btnPauseTimer', function(event) {
 // the timer prototype object (class) //
 ////////////////////////////////////////
 
-function Timer(elem,estimatedTime,pausebtn,tone) {
+function Timer(elem,estimatedTime,pausebtn) {
 	
 	// init element to display time in
 	this.elem = elem;
@@ -947,7 +947,7 @@ function Timer(elem,estimatedTime,pausebtn,tone) {
 		if($$('#'+elem).text() === $$('#'+estimatedTime).text()){
 			
 			// play the sound
-			$$('#'+tone)[0].play();
+			navigator.notification.beep(2);
 			
 			// pause the timer
 			clearInterval(timr); 
