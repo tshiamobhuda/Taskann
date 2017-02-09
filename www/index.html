@@ -58,7 +58,7 @@
               <!-- <div class="tabs-animated-wrap"> -->
                 <div class="tabs" style="height: 100%">
                     <div id="tab1" class="page-content tab active">
-                            
+
                         <!-- Media list block has additional "media-list" class -->
                         <div class="list-block media-list sortable" style="margin: auto 0;">
                             <ul id="todolist">
@@ -136,7 +136,7 @@
         </div>
 
         <div class="content-block" style="margin: 16px 0;">
-            <a href="#" class="button button-raised open-picker" data-picker=".about-picker">About</a>
+            <a href="#" class="button button-raised open-popup" data-popup=".about-popup">About</a>
         </div>
 
         <div class="content-block-title">
@@ -214,41 +214,54 @@
         </div>
     </div>
 
-    <!-- About Modal Container -->
-      <div class="picker-modal about-picker">
-        <!-- Picker Modal Toolbar, optional -->
-        <div class="toolbar">
-          <div class="toolbar-inner">
-            <div class="left"></div>
-            <div class="right">
-              <a href="#" class="link close-picker">Done</a>
+      <!-- about popup -->
+    <div class="popup about-popup">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="#" class="icon-only link close-popup"><i class="icon icon-back"></i></a>
+                </div>
+                <div class="center">About</div>
+                <div class="right">
+                    
+                </div>
             </div>
-          </div>
         </div>
-        <!-- Picker Modal Inner -->
-        <div class="picker-modal-inner">
-          <!-- Picker content -->
-          <div class="content-block" style="margin: 16px 0;">
-            <h2>Taskann - v1.0.0</h2>
+
+        <div style="text-align: center;" class="content-block no-hairlines">
+            <h1 style="margin: 0px auto;">Taskann 
+            	<div class="chip">
+            		<div class="chip-media bg-red">
+            			<i class="icon material-icons">label</i>
+            		</div>
+            		<div class="chip-label">v1.0.0</div>
+            	</div>
+            </h1>
+
+	        <p class="color-gray">
+	            Task management at its simplest form with Kanban at heart.<br>
+	        </p>
+        </div>
+
+        <div class="content-block no-hairlines" style="margin: 0 0;">
             <center>
-                <p>
-                    Task managment at its simplest form with Kanban at heart.<br>
-                </p>
+                <img src="icon.png" style="border-radius: 10%;height: auto;width: 92px;">
                 <p>
                     Developed by: <strong>Tshiamo Bhuda</strong><br>
                     Framework7 <br>
                     Cordova <br>
                 </p>
-            </center>
-          </div>
+            <p>
+				Special Thanks <i class="icon material-icons color-red">favorite</i> <br>
+				<strong>Tshepo Kekana (T3k)</strong><br>
+				<strong>Nthabiseng</strong>
+			</p>
+			</center>
         </div>
-      </div>
+    </div>
 
-	<!-- audio -->
-	<audio class="disabled" id="Tone">
-        <source src="audio/TRUMPET.wav" />
-    </audio>
-
+    <!-- cordova -->
+    <script type="text/javascript" src="cordova.js"></script>
     <!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="js/framework7.min.js"></script>
     <!-- Path to your app js-->
