@@ -358,21 +358,21 @@ $$(document).on('click', '.openpopover', function(event) {
     var popoverLinksHTML = '';
     if(tab === 'todo'){
         popoverLinksHTML = '<ul>'+
-        					  '<li><a href="#" class="list-button item-link view-task" onclick=viewTask('+i+')><i class="icon material-icons color-bluegray">visibility</i> View</a></li>'+	
+        					  '<li><a href="#" class="list-button item-link view-task bg-bluegray color-white" onclick=viewTask('+i+')><i class="icon material-icons">visibility</i> View</a></li>'+	
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"doing")><i class="icon material-icons color-red">work</i> Move to Doing </a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"done")><i class="icon material-icons color-green">done</i> Move to Done</a></li>'+
                             '</ul>';
 
     }else if(tab === 'doing'){
         popoverLinksHTML = '<ul>'+
-        					'<li><a href="#" class="list-button item-link view-task" onclick=viewTask('+i+')><i class="icon material-icons color-bluegray">visibility</i> View</a></li>'+
+        					'<li><a href="#" class="list-button item-link view-task bg-bluegray color-white" onclick=viewTask('+i+')><i class="icon material-icons">visibility</i> View</a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-orange">note</i> Move to Todo </a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"done")><i class="icon material-icons color-green">done</i> Move to Done</a></li>'+
                             '</ul>';
                             
     }else if(tab === 'done'){
         popoverLinksHTML = '<ul>'+
-        					'<li><a href="#" class="list-button item-link view-task" onclick=viewTask('+i+')><i class="icon material-icons color-bluegray">visibility</i> View</a></li>'+
+        					'<li><a href="#" class="list-button item-link view-task bg-bluegray color-white" onclick=viewTask('+i+')><i class="icon material-icons">visibility</i> View</a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"todo")><i class="icon material-icons color-orange">note</i> Move to Todo </a></li>'+
                               '<li><a href="#" class="list-button item-link" onclick=moveTask('+i+',"doing")><i class="icon material-icons color-red">work</i> Move to Doing</a></li>'+
                             '</ul>';
