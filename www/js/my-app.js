@@ -25,10 +25,10 @@ var $$ = Dom7;
 ///////////////////
 
 fetchSettings();
+var myTimer = new Timer('timeElasped','timeEstimated','btnPauseTimer');
 fetchTodo('todo');
 fetchTodo('doing');
 fetchTodo('done');
-var myTimer = new Timer('timeElasped','timeEstimated','btnPauseTimer');
 
 ////////////////////
 // Add a new Task //
@@ -156,10 +156,23 @@ function fetchTodo(tab) {
         $$('#timeEstimated').text(addTime());
 
         // undisable timer if there are tasks to do
-        if(tabCount > 0) 
+        if(tabCount > 0){
         	$$('.timer-container').removeClass('disabled');
-        else
+
+        	if ($$('#timeEstimated').text() == '00:00:00:00'){
+        		myTimer.stop();
+        		$$('#btnTimer').find('.material-icons').text('timer');
+        		$$('#btnTimer').data('running','no');
+        	}
+
+        }else{
         	$$('.timer-container').addClass('disabled');
+        	if(myTimer.isrunning() == true){
+        		myTimer.stop();
+        		$$('#btnTimer').find('.material-icons').text('timer');
+        		$$('#btnTimer').data('running','no');
+        	} 
+        }
 
     }else{
 
