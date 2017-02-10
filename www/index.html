@@ -32,7 +32,7 @@
                   <div class="right">
                     <a href="#" class="link icon-only open-popup" data-popup=".popup-new-task"><i class="icon material-icons">create</i></a>
                     <a href="#" class="link icon-only toggle-sortable" data-sortable=".sortable"><i class="icon material-icons">sort</i></a>
-                    <a href="#" class="link open-popup icon-only" data-popup=".popup-settings"><i class="icon material-icons">menu</i></a>
+                    <a href="#" class="link open-popup icon-only" data-popup=".popup-settings"><i class="icon material-icons">settings</i></a>
                 </div>
                 </div>
               </div>
@@ -42,23 +42,23 @@
                     <a href="#tab1" class="active tab-link"> 
                         <!-- <i class="icon material-icons">today</i> -->
                         <span class="tabbar-label">TO DO</span>
-                        <sup class="badge bg-orange" id="todo-count">5</sup>
+                        <sup class="badge bg-orange" id="todo-count">0</sup>
                     </a>
                     <a href="#tab2" class="tab-link">
                         <i class="icon material-icons">work</i>
-                        <sup class="badge bg-red" id="doing-count">1/2</sup>
+                        <div class="badge bg-red" id="doing-count">0/0</div>
                     </a>
                     <a href="#tab3" class="tab-link">
                         <i class="icon material-icons">done</i>
-                        <sup class="badge bg-green" id="done-count">7</sup>
+                        <sup class="badge bg-green" id="done-count">0</sup>
                     </a>
                 </div>
               </div>
 
-              <div class="tabs-animated-wrap">
-                <div class="tabs">
+              <!-- <div class="tabs-animated-wrap"> -->
+                <div class="tabs" style="height: 100%">
                     <div id="tab1" class="page-content tab active">
-                            
+
                         <!-- Media list block has additional "media-list" class -->
                         <div class="list-block media-list sortable" style="margin: auto 0;">
                             <ul id="todolist">
@@ -67,8 +67,36 @@
                         </div> 
 
                     </div>
-                    <div id="tab2" class="page-content tab">
-                            
+                    <div id="tab2" class="page-content tab ">
+                        
+                        <div class="content-block disabled timer-container" style="margin: 16px 0; z-index: auto;">
+                            <div class="row">
+                                <div class="col-20">
+                                    <a href="#" class="timer-btn button-raised ripple" id="btnTimer" data-running="no" >
+                                        <i class="icon material-icons" >timer</i>
+                                    </a>
+                                </div>
+                                <div class="col-20">
+                                    <a href="#" class="timer-btn button-raised ripple" id="btnPauseTimer" data-paused="no" >
+                                        <i class="material-icons icon" >pause</i>
+                                    </a>
+                                </div>
+                                <div class="col-60 color-bluegray" style="text-align: right;">
+                                	<div class="row">
+                                		<div class="col-auto">
+                                			<small>estimated </small><span id="timeEstimated">00:00:00:00</span>
+                                		</div>	
+                                	</div>
+                                	<div class="row">
+                                		<div class="col-auto">
+                                			<small>elapsed </small><span class="color-deeporange" id="timeElasped">00:00:00:00</span>
+                                		</div>	
+                                	</div>
+
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Media list block has additional "media-list" class -->
                         <div class="list-block media-list sortable" style="margin: auto 0;">
                             <ul id="doinglist">
@@ -86,7 +114,7 @@
                         </div>
                     </div>
                 </div>
-                </div>
+              <!-- </div> -->
             </div>
         </div>
       </div>
@@ -102,9 +130,13 @@
                 </div>
                 <div class="center">Preferences</div>
                 <div class="right">
-                    <a href="#" class="icon-only link close-popup"><i class="material-icons icon">save</i></a>
+                    <a href="#" class="icon-only link" id="saveSettings"><i class="material-icons icon">save</i></a>
                 </div>
             </div>
+        </div>
+
+        <div class="content-block" style="margin: 16px 0;">
+            <a href="#" class="button button-raised open-popup" data-popup=".about-popup">About</a>
         </div>
 
         <div class="content-block-title">
@@ -112,7 +144,20 @@
         </div>
 
         <div class="content-block">
-            
+            <form class="list-block inputs-list">
+              <ul>
+                <li>
+                  <div class="item-content">
+                    <div class="item-inner"> 
+                      <div class="item-title label">WIP (Work In Progress)</div>
+                      <div class="item-input item-input-field">
+                        <input placeholder="2" type="number" min="1" id="wipSetting"/>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </form>
         </div>
 
     </div>
@@ -132,12 +177,13 @@
             </div>
         </div>
 
-        <div class="list-block" style="margin: auto 0;">
+        <div class="list-block inputs-list" style="margin: auto 0;">
           <ul>
             <li>
               <div class="item-content">
                 <div class="item-inner">
-                  <div class="item-input">
+                	<div class="item-title label">Title</div>
+                  <div class="item-input item-input-field">
                       <input type="text" name="title" placeholder="Title" id="newTaskTitle">
                   </div>
                 </div>
@@ -146,7 +192,8 @@
             <li class="align-top">
               <div class="item-content">
                 <div class="item-inner">
-                  <div class="item-input">
+                	<div class="item-title label">Description</div>
+                  <div class="item-input item-input-field">
                       <textarea name="description" placeholder="Description"  id="newTaskDescription"></textarea>
                   </div>
                 </div>
@@ -155,8 +202,9 @@
             <li>
               <div class="item-content">
                 <div class="item-inner">
-                  <div class="item-input">
-                      <input type="time" name="title" placeholder="00:00" id="newTaskTime">
+                	<div class="item-title label">Estimated Time</div>
+                  <div class="item-input item-input-field">
+                      <input type="time" name="title" placeholder="i.e HH:MM" id="newTaskTime">
                   </div>
                 </div>
               </div>
@@ -166,6 +214,54 @@
         </div>
     </div>
 
+      <!-- about popup -->
+    <div class="popup about-popup">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="#" class="icon-only link close-popup"><i class="icon icon-back"></i></a>
+                </div>
+                <div class="center">About</div>
+                <div class="right">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;" class="content-block no-hairlines">
+            <h1 style="margin: 0px auto;">Taskann 
+            	<div class="chip">
+            		<div class="chip-media bg-red">
+            			<i class="icon material-icons">label</i>
+            		</div>
+            		<div class="chip-label">v1.0.0</div>
+            	</div>
+            </h1>
+
+	        <p class="color-gray">
+	            Task management at its simplest form with Kanban at heart.<br>
+	        </p>
+        </div>
+
+        <div class="content-block no-hairlines" style="margin: 0 0;">
+            <center>
+                <img src="icon.png" style="border-radius: 10%;height: auto;width: 92px;">
+                <p>
+                    Developed by: <strong>Tshiamo Bhuda</strong><br>
+                    Framework7 <br>
+                    Cordova <br>
+                </p>
+            <p>
+				Special Thanks <i class="icon material-icons color-red">favorite</i> <br>
+				<strong>Tshepo Kekana (T3k)</strong><br>
+				<strong>Nthabiseng</strong>
+			</p>
+			</center>
+        </div>
+    </div>
+
+    <!-- cordova -->
+    <script type="text/javascript" src="cordova.js"></script>
     <!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="js/framework7.min.js"></script>
     <!-- Path to your app js-->

@@ -1,0 +1,22 @@
+/*dealing with timer buttons*/
+
+.timer-btn{
+	text-align: center;
+	padding: 8px;
+	display: inline-block;
+	width: auto !important;
+	min-width: initial;
+	overflow: hidden;
+	position: relative;
+	border-radius: 8%;
+}
+
+/*dealing with list items*/
+
+.list-block.media-list .item-link .item-title-row {
+    padding-right: initial;
+    background: no-repeat right top;
+    background-image: none;
+    background-size: initial;
+}
+
